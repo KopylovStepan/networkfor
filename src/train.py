@@ -3,9 +3,10 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
+import sys
 
 
-bank_notes = pd.read_csv('bank_note_data.csv')
+bank_notes = sys.argv[3]
 #Output: (1372, 5)
 bank_notes_without_class = bank_notes.drop('Class', axis=1)
 scaler = StandardScaler()
@@ -37,10 +38,10 @@ model.compile(loss='categorical_crossentropy',
               metrics=['accuracy'])
 
 model.fit(x_train, y_train,
-          epochs=50,
+          epochs=sys.argv[1],
           batch_size=100,validation_data=(x_valid, y_valid))
 score = model.evaluate(x_test, y_test, batch_size=100)
 
 
 
-model.save('model.h5')
+model.save('model.h5', sys.argv[2])
